@@ -4,7 +4,7 @@
 
 # Define package-level attributes if needed
 PACKAGE_NAME = "groupdocs_metadata_examples"
-VERSION = "24.3"
+VERSION = "24.9"
 
 # This code will be executed when the package is imported
 print(f"{PACKAGE_NAME} package is imported. Version {VERSION}")

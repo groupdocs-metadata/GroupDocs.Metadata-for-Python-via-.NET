@@ -2,7 +2,9 @@ import groupdocs.metadata as gm
 import constants
 
 def run():
-
+    print("\n--------------------------------------------------------------------------------------------------------------------")
+    print("[Example Basic Usage] # GetDocumentInfo : How to extract basic format information from a file.\n")
+            
     with gm.Metadata(constants.input_xlsx) as metadata:
         info = metadata.get_document_info()
         print(f"File format: {info.file_type.file_format}")

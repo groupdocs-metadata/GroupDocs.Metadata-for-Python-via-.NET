@@ -3,7 +3,9 @@ import groupdocs.metadata as gm
 import constants
 
 def run():
-
+    print("\n--------------------------------------------------------------------------------------------------------------------")
+    print("[Example Basic Usage] # SetMetadataProperties : How to set specific metadata properties using different criteria.\n")
+            
     with gm.Metadata(constants.input_vsdx) as metadata:
         specification = gm.search.ContainsTagSpecification(gm.tagging.Tags.time.created).either(gm.search.ContainsTagSpecification(gm.tagging.Tags.time.modified))
         now = datetime.now()

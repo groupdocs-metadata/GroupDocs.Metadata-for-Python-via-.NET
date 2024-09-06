@@ -7,7 +7,8 @@ import platform
 import inspect
 
 
-license_path = ""
+#license_path = os.environ.get('CONHOLDATE_LIC_PATH')
+license_path = "C:\Work\License\GroupDocs.Metadata.Pythonvia.NET.lic"
 input_path = "./Resources/SampleFiles/"
 fonts_path = "./Resources/Fonts"
 output_path = "./Output/"
@@ -117,3 +118,5 @@ output_csv = get_output_file_path("output.csv")
 output_epub = get_output_file_path("output.epub")
 output_dxf = get_output_file_path("output.dxf")
 output_xml = get_output_file_path("output.xml")
+
+import_pdf = get_input_file_path("pdf.json")

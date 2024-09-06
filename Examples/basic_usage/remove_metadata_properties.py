@@ -2,7 +2,9 @@ import groupdocs.metadata as gm
 import constants
 
 def run():
-
+    print("\n--------------------------------------------------------------------------------------------------------------------")
+    print("[Example Basic Usage] # RemoveMetadataProperties : How to remove specific metadata properties using various criteria.\n")
+            
     with gm.Metadata(constants.input_docx) as metadata:
         specification = gm.search.ContainsTagSpecification(gm.tagging.Tags.person.creator).either(gm.search.ContainsTagSpecification(gm.tagging.Tags.person.editor)).either(gm.search.OfTypeSpecification(gm.common.MetadataPropertyType.STRING).both(gm.search.WithValueSpecification("John")))
         affected = metadata.remove_properties(specification)

@@ -5,6 +5,8 @@ import constants
 from datetime import datetime
 
 def run():
+    print("\n--------------------------------------------------------------------------------------------------------------------")
+    print("[Example Advanced Usage] # AddingMetadata : How to add some missing metadata properties to a file regardless of its format.\n")
     files = os.listdir(constants.input_path)
     for file in files:
         with gm.Metadata(constants.input_path+file) as metadata:

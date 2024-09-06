@@ -10,21 +10,24 @@ if __name__ == '__main__':
     # set_metered_license.run()
 
     ## Basic usage
-    #get_document_info.run()
-    #clean_metadata.run()
-    #find_metadata_properties.run()
-    #remove_metadata_properties.run()
-    #set_metadata_properties.run()
+    get_document_info.run()
+    clean_metadata.run()
+    find_metadata_properties.run()
+    remove_metadata_properties.run()
+    set_metadata_properties.run()
 
     ## Advanced usage
-    #adding_metadata.run()
-    #extracting_metadata.run()
-    #exporting_metadata_properties.run()
-    #removing_metadata.run()
-    #setting_metadata.run()
-    
+    adding_metadata.run()
+    extracting_metadata.run()
+    exporting_metadata_properties.run()
+    removing_metadata.run()
+    setting_metadata.run()
+    import_metadata.run()
 
-
+    stl_read_native_metadata_properties.run()
+    dae_read_native_metadata_properties.run()
+    fbx_read_native_metadata_properties.run()
+    threeds_read_native_metadata_properties.run()
 
 
           
