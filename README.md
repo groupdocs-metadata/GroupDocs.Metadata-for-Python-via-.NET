@@ -1,54 +1,107 @@
-# GroupDocs.Metadata-for-Python-via-.NET
-GroupDocs.Metadata for Python provides easy ways to [Manage Document Metadata via Python](https://products.groupdocs.com/metadata/python-net/). It enables you to read, write, update and remove metadata of a [wide range of file formats](https://docs.groupdocs.com/metadata/python-net/supported-document-formats/) including documents, images, emails, archives and many more. It also provides the feature to search and update metadata in document files.
+# GroupDocs.Metadata for Python via .NET - Code Examples
 
+[![banner](https://raw.githubusercontent.com/groupdocs/groupdocs.github.io/master/img/banners/groupdocs-metadata-python-net-banner.png)](https://releases.groupdocs.com/metadata/python-net/)
 
-## Read, Write, Update & Remove Document Metadata
+[Product Page](https://products.groupdocs.com/metadata/python-net/) | [Docs](https://docs.groupdocs.com/metadata/python-net/) | [Demos](https://products.groupdocs.app/metadata/family) | [API Reference](https://reference.groupdocs.com/metadata/python-net/) | [Blog](https://blog.groupdocs.com/category/metadata/) | [Search](https://search.groupdocs.com/) | [Free Support](https://forum.groupdocs.com/c/metadata) | [Temporary License](https://purchase.groupdocs.com/temporary-license)
 
-- Read, update and remove metadata from 60+ popular file formats.
-- Search, update and remove particular metadata properties that satisfy a specification.
-- Use tags to easily manipulate most common metadata properties in a unified manner.
-- [Load & work with password-protected documents](https://docs.groupdocs.com/metadata/python-net/load-a-password-protected-document/).
-- Extract information about hidden document pages, digital signatures, user comments, revisions and more.
-- Supports most popular metadata standards: IPTC, XMP, EXIF, Image Resources.
-- Manipulate native metadata properties in various formats, extracting technical information from images, audio and video files.
-- [Calculate common document statistics](https://docs.groupdocs.com/metadata/python-net/get-document-info/).
-- Auto-detect the format and MIME type of a file by its internal structure.
-- Supports various audio tags including ID3, Lyrics & APE.
+[GroupDocs.Metadata for Python via .NET](https://products.groupdocs.com/metadata/python-net/) is a metadata management API that reads, edits, and removes metadata from documents, images, audio, and video — supporting XMP, EXIF, IPTC, Image Resource Blocks, ID3, and document properties across 70+ file formats.
 
-## Getting Started with GroupDocs.Metadata for Node.js via Java
-### Installation
+## Features
 
-Fetch the package and install GroupDocs.Metadata. Run this command: pip install groupdocs.metadata
+- **70+ Formats**: Read, edit, and remove metadata in Microsoft Office, PDF, images, audio, video, archives, and more.
+- **Metadata Standards**: XMP, EXIF, IPTC IIM, Image Resource Blocks, and ID3 (ID3v1/ID3v2), Lyrics3, APE.
+- **Search Engine**: Find, update, add, and remove properties with simple Python predicates and predefined tags.
+- **One-Call Sanitize**: Strip every detected property before sharing a file.
+- **Document Inspection**: Detect format/MIME type, page count, and encryption.
+- **Export**: Dump the metadata tree to CSV, XLSX, JSON, or XML.
+- **On-Premise**: No cloud or internet connection required.
 
-If you already have GroupDocs.Metadata installed and want to get the latest version, you have to run: pip install --upgrade groupdocs.metadata instead.
+## Supported File Formats
 
+GroupDocs.Metadata for Python via .NET supports a wide range of file formats, including Word, Excel, PowerPoint, PDF, OpenDocument, Image, Email, and many others. See the [full list of supported formats](https://docs.groupdocs.com/metadata/python-net/supported-document-formats/) for details.
 
-## Get Document Info
+## Get Started
 
-```python
-// constants.input_xlsx is an absolute or relative path to your document. Ex: @"C:\Docs\source.xlsx"
-with gm.Metadata(constants.input_xlsx) as metadata:
-        info = metadata.get_document_info()
-        print(f"File format: {info.file_type.file_format}")
-        print(f"File extension: {info.file_type.extension}")
-        print(f"MIME Type: {info.file_type.mime_type}")
-        print(f"Number of pages: {info.page_count}")
-        print(f"Document size: {info.size} bytes")
-        print(f"Is document encrypted: {info.is_encrypted}")
+1. **Set Up Environment**: Ensure that [Python 3.5+](https://www.python.org/downloads/) is installed on your system.
+
+2. **Get the Code**: Clone or download this repository.
+
+   ```bash
+   git clone git@github.com:groupdocs-metadata/GroupDocs.Metadata-for-Python-via-.NET.git
+   ```
+
+3. **Navigate to the `Examples` Folder**
+
+   ```bash
+   cd ./GroupDocs.Metadata-for-Python-via-.NET/Examples
+   ```
+
+4. **Install Package**: install dependencies with pip:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+   Alternatively, download the platform-specific `.whl` file from the [GroupDocs Releases](https://releases.groupdocs.com/metadata/python-net/) website and install it directly (adjust the filename to your platform — `win_amd64`, `manylinux*_x86_64`, `macosx_*_arm64`, `macosx_*_x86_64`):
+
+   ```bash
+   pip install ./groupdocs_metadata_net-26.5-py3-none-win_amd64.whl
+   ```
+
+5. **Configure License (Optional)**: `run_all_examples.py` automatically applies a license when one is available, looking in two places:
+
+   - The `GROUPDOCS_LIC_PATH` environment variable — set it to the absolute path of your `.lic` file (recommended).
+   - Any `*.lic` file in the repository root.
+
+   With a license applied, examples run with the full feature set; without one, output documents carry an evaluation watermark and are capped at the first two pages. Get a free 30-day [temporary license](https://purchase.groupdocs.com/temporary-license) for evaluation.
+
+6. **Run the Examples**: To run all the examples, execute the following command:
+
+   ```bash
+   python ./run_all_examples.py
+   ```
+
+   You can also run individual examples by navigating to the folder containing the example script and running it. Output files are placed in the same folder as the script file.
+
+## Run with Docker
+
+The repository ships a `Dockerfile` that builds a Linux image with Python 3.13, the .NET runtime dependencies (`libicu-dev`), and the `groupdocs-metadata-net` package preinstalled.
+
+```bash
+# Build the image
+docker build -t metadata-examples .
+
+# Run unlicensed (evaluation mode)
+docker run --rm metadata-examples
+
+# Run with a license mounted from the host
+docker run --rm \
+    -v /path/to/license:/lic:ro \
+    -e GROUPDOCS_LIC_PATH=/lic/your-license.lic \
+    metadata-examples
 ```
 
-## Add or Update Metadata Properties Satisfying a Predicate
+On Windows with Git Bash, set `export MSYS_NO_PATHCONV=1` before `docker run` to prevent MSYS from rewriting the mounted license path.
 
-```python
-// constants.input_vsdx is an absolute or relative path to your document. Ex: @"C:\Docs\source.vsdx"
-with gm.Metadata(constants.input_vsdx) as metadata:
-        specification = gm.search.ContainsTagSpecification(gm.tagging.Tags.time.created).either(gm.search.ContainsTagSpecification(gm.tagging.Tags.time.modified))
-        now = datetime.now()
-        property_value = gm.common.PropertyValue(now)
-        affected = metadata.set_properties(specification, property_value)
-        print(f"Properties set: {affected}")
-        metadata.save(constants.output_vsdx)
-}
-```
+## AI agents and LLM integration
 
-[Home](https://www.groupdocs.com/) | [Product Page](https://products.groupdocs.com/metadata/python-net) | [Documentation](https://docs.groupdocs.com/metadata/python-net/) | [Demos](https://products.groupdocs.app/metadata/family) | [API Reference](https://apireference.groupdocs.com/python-net/metadata) | [Examples](https://github.com/groupdocs-metadata/GroupDocs.metadata-for-Python-via-.NET/tree/master/Examples) | [Blog](https://blog.groupdocs.com/category/metadata/) | [Search](https://search.groupdocs.com/) | [Free Support](https://forum.groupdocs.com/c/metadata) | [Temporary License](https://purchase.groupdocs.com/temporary-license)
+The `groupdocs-metadata-net` wheel ships a bundled `AGENTS.md` reference for AI coding assistants (Claude Code, Cursor, GitHub Copilot in agent mode, and similar). Once the package is installed, the reference is discovered automatically at `groupdocs/metadata/AGENTS.md` — it covers canonical imports, quick-start usage, licensing, the API surface table, and troubleshooting.
+
+For on-demand documentation lookups, combine the bundled `AGENTS.md` with the GroupDocs MCP server at `https://docs.groupdocs.com/mcp`. See the [AI agents and LLM integration](https://docs.groupdocs.com/metadata/python-net/agents-and-llm-integration/) page for the per-tool setup snippets.
+
+## Continuous integration
+
+The `.github/workflows/` directory contains the CI matrix that runs the full example suite on every push. The matrix is reproducible locally via the `Dockerfile` above.
+
+## More Resources
+
+Find additional details and examples in the [GroupDocs.Metadata for Python via .NET documentation](https://docs.groupdocs.com/metadata/python-net/).
+
+We also offer **GroupDocs.Metadata** packages for other platforms:
+* [**GroupDocs.Metadata for .NET**](https://products.groupdocs.com/metadata/net/)
+* [**GroupDocs.Metadata for Java**](https://products.groupdocs.com/metadata/java/)
+* [**GroupDocs.Metadata for Node.js via Java**](https://products.groupdocs.com/metadata/nodejs-java/)
+
+---
+
+[Product Page](https://products.groupdocs.com/metadata/python-net/) | [Docs](https://docs.groupdocs.com/metadata/python-net/) | [Demos](https://products.groupdocs.app/metadata/family) | [API Reference](https://reference.groupdocs.com/metadata/python-net/) | [Blog](https://blog.groupdocs.com/category/metadata/) | [Search](https://search.groupdocs.com/) | [Free Support](https://forum.groupdocs.com/c/metadata) | [Temporary License](https://purchase.groupdocs.com/temporary-license)
