@@ -1,6 +1,6 @@
 import os
+import subprocess
 import sys
-import traceback
 
 # Use UTF-8 for stdout on Windows to avoid encoding errors when printing
 # converted Markdown that contains special Unicode characters
@@ -38,34 +38,38 @@ Enjoy exploring the GroupDocs API!
 """
     print(intro_text)
 
-def set_license():
-    """Set the GroupDocs license from environment variable or license file."""
-    from groupdocs.metadata import License
+def announce_license():
+    """Print whether GROUPDOCS_LIC_PATH points at a usable license file.
 
-    # First, check for license path in environment variable
+    The license itself is applied inside each subprocess by _run_example.py —
+    setting it here would only license the runner process, not the children.
+    """
     license_path = os.environ.get("GROUPDOCS_LIC_PATH")
-
-    # Set license if found
     if license_path and os.path.exists(license_path):
-        license = License()
-        license.set_license(license_path)
-        print(f"{GREEN}License set from: {license_path}{RESET}\n")
+        print(f"{GREEN}License available at: {license_path}{RESET}\n")
     else:
         print(f"{YELLOW}No license file found. Running in evaluation mode.{RESET}\n")
 
 def run_example(base_dir, example_path):
-    """Run a single example by executing its script in-process."""
+    """Run a single example as a subprocess via the _run_example.py wrapper.
+
+    Subprocess isolation gives every example a fresh .NET runtime, which
+    matters under the current evaluation build: the .NET runtime caps file
+    opens at 15 per process, and an in-process runner blows up around the
+    16th example. The wrapper also patches Metadata.save so eval-mode save
+    errors are logged as notes rather than failing the example.
+    """
     full_path = os.path.join(base_dir, example_path)
     example_dir = os.path.dirname(full_path)
+    wrapper = os.path.join(base_dir, "_run_example.py")
 
-    # Change to the example directory so relative paths work
-    saved_cwd = os.getcwd()
-    os.chdir(example_dir)
-    try:
-        code = open(full_path, "r", encoding="utf-8").read()
-        exec(compile(code, full_path, "exec"), {"__name__": "__main__", "__file__": full_path})
-    finally:
-        os.chdir(saved_cwd)
+    result = subprocess.run(
+        [sys.executable, wrapper, full_path],
+        cwd=example_dir,
+        env=os.environ.copy(),
+    )
+    if result.returncode != 0:
+        raise RuntimeError(f"subprocess exited with code {result.returncode}")
 
 examples = [
     "getting-started/quick-start-guide/read_metadata.py",
@@ -111,7 +115,7 @@ examples = [
 ]
 
 print_intro()
-set_license()
+announce_license()
 
 base_dir = os.path.dirname(__file__)
 passed = 0
