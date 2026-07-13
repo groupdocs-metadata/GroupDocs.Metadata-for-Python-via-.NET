@@ -3,7 +3,7 @@
 
 > Instructions for AI agents working with this package.
 
-Read, edit, and remove metadata from documents, spreadsheets, presentations, PDFs, images, audio, and video -- 70+ formats, with support for XMP, EXIF, IPTC, Image Resource Blocks, and ID3.
+Read, edit, and remove metadata from documents, spreadsheets, presentations, PDFs, images, audio, and video -- 110+ formats, with support for XMP, EXIF, IPTC, Image Resource Blocks, and ID3.
 
 ## Install
 

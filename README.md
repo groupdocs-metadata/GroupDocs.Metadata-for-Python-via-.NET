@@ -4,11 +4,11 @@
 
 [Product Page](https://products.groupdocs.com/metadata/python-net/) | [Docs](https://docs.groupdocs.com/metadata/python-net/) | [Demos](https://products.groupdocs.app/metadata/family) | [API Reference](https://reference.groupdocs.com/metadata/python-net/) | [Blog](https://blog.groupdocs.com/category/metadata/) | [Search](https://search.groupdocs.com/) | [Free Support](https://forum.groupdocs.com/c/metadata) | [Temporary License](https://purchase.groupdocs.com/temporary-license)
 
-[GroupDocs.Metadata for Python via .NET](https://products.groupdocs.com/metadata/python-net/) is a metadata management API that reads, edits, and removes metadata from documents, images, audio, and video — supporting XMP, EXIF, IPTC, Image Resource Blocks, ID3, and document properties across 70+ file formats.
+[GroupDocs.Metadata for Python via .NET](https://products.groupdocs.com/metadata/python-net/) is a metadata management API that reads, edits, and removes metadata from documents, images, audio, and video — supporting XMP, EXIF, IPTC, Image Resource Blocks, ID3, and document properties across 110+ file formats.
 
 ## Features
 
-- **70+ Formats**: Read, edit, and remove metadata in Microsoft Office, PDF, images, audio, video, archives, and more.
+- **110+ formats**: Read, edit, and remove metadata in Microsoft Office, PDF, images, audio, video, archives, and more.
 - **Metadata Standards**: XMP, EXIF, IPTC IIM, Image Resource Blocks, and ID3 (ID3v1/ID3v2), Lyrics3, APE.
 - **Search Engine**: Find, update, add, and remove properties with simple Python predicates and predefined tags.
 - **One-Call Sanitize**: Strip every detected property before sharing a file.
