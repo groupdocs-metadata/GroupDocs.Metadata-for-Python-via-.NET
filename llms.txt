@@ -1,0 +1,11 @@
+# GroupDocs.Metadata for Python via .NET — examples
+
+> On-premise SDK examples. Formats: 115+.
+
+- Docs: https://docs.groupdocs.com/metadata/python-net/
+- Formats: https://docs.groupdocs.com/metadata/python-net/supported-document-formats/
+- PyPI: https://pypi.org/project/groupdocs-metadata-net/
+- API reference: https://reference.groupdocs.com/metadata/python-net/
+- Releases: https://releases.groupdocs.com/metadata/python-net/
+- Agent guide: AGENTS.md
+- MCP (link only): https://docs.groupdocs.com/mcp
