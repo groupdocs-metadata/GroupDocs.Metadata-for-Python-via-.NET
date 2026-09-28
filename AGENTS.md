@@ -11,7 +11,7 @@ Read, edit, and remove metadata from documents, spreadsheets, presentations, PDF
 pip install groupdocs-metadata-net
 ```
 
-**Python**: 3.5 - 3.14 | **Platforms**: Windows, Linux, macOS
+**Python**: 3.5 - 3.14 (pip 20.3+) | **Platforms**: Windows x64, Linux x64 (glibc 2.27+), macOS 12+ (x64, ARM64)
 
 ## Resources
 
@@ -156,6 +156,28 @@ with Metadata("photo.jpg") as metadata:
     metadata.save("photo_out.jpg")
 ```
 
+## Command Line
+
+The wheel installs a `groupdocs-metadata` console script (also `python -m groupdocs.metadata`) for shell pipelines, Make rules and CI steps.
+
+```bash
+groupdocs-metadata info FILE [--json]                        # format, extension, mime_type, size, pages, encrypted
+groupdocs-metadata show FILE [--tag TAG] [--json]            # properties: name = value  [tags]
+groupdocs-metadata clean FILE [-o OUT]                       # sanitize(); default OUT = <name>.clean<ext>
+groupdocs-metadata remove FILE --tag TAG [-o OUT]            # remove_properties() for one tag or category
+groupdocs-metadata export FILE -o OUT [--format FMT]         # ExportManager: json | csv | xlsx | xls | xml
+groupdocs-metadata list-formats                              # FileType.get_supported_file_types()
+groupdocs-metadata --license license.lic COMMAND ...         # every command also takes --password
+```
+
+**Tags.** `--tag` is a category (`content`, `corporate`, `document`, `legal`, `origin`, `person`, `property_type`, `time`, `tool`) or `category.tag` (`person.creator`, `time.modified`, `document.built_in`). The labels `show` prints are exactly what `--tag` accepts. Built-in document properties (e.g. `LastSavedBy`) are cleared rather than deleted, so they still appear, empty.
+
+**Files.** Inputs are read through a stream, so a read-only file works unless `-o` names the input itself (in place). `clean`/`remove` never overwrite the input by default.
+
+**Exit codes.** `0` success · `2` user error (missing file, unknown tag, unknown export format) · `1` engine error (one line: message + .NET exception type).
+
+**Limits.** Setting values, adding properties, format-specific packages (EXIF/XMP/IPTC objects), streams and export options need the Python API.
+
 ## Licensing
 
 ```python
@@ -189,7 +211,7 @@ Or auto-apply: `export GROUPDOCS_LIC_PATH="path/to/license.lic"`
 | `remove_properties(predicate)` | `int` | Remove matching properties; returns removed count. |
 | `sanitize()` | `int` | Remove every detected property; returns removed count. |
 | `save([file_path / stream])` | `None` | Save to a new path/stream, or in place when called with no argument. |
-| `generate_preview(preview_options)` | `None` | Render page previews (see `groupdocs.metadata.options.PreviewOptions`). |
+| `generate_preview(preview_options)` | `None` | Render page previews. **Not usable from Python yet**: `PreviewOptions` takes page-stream callbacks, and passing a Python function raises `TypeError`. |
 | `copy_to(metadata_package)` | `None` | Copy properties into another package. |
 | `file_format` | `FileFormat` | Detected format enum (property). |
 
@@ -211,9 +233,11 @@ Or auto-apply: `export GROUPDOCS_LIC_PATH="path/to/license.lic"`
 
 | Platform | Requirements |
 |---|---|
-| Windows | None |
-| Linux | `apt install libgdiplus libfontconfig1 ttf-mscorefonts-installer` |
-| macOS | `brew install mono-libgdiplus` |
+| Windows x64 | None |
+| Linux x64 (glibc 2.27+: Ubuntu 18.04+, Debian 10+, RHEL 8+) | `apt install libicu-dev libfontconfig1` — no `libgdiplus`, no Microsoft core fonts |
+| macOS 12+ (x64, ARM64) | None |
+
+The wheel tags state these floors (`manylinux_2_27_x86_64`, `macosx_12_0_x86_64`, `macosx_12_0_arm64`), so pip 20.3+ refuses an older OS up front instead of installing a runtime that cannot start.
 
 ## Troubleshooting
 
@@ -221,13 +245,19 @@ Or auto-apply: `export GROUPDOCS_LIC_PATH="path/to/license.lic"`
 
 **`DocumentProtectedException`** -- the document is password-protected. Pass `LoadOptions(password="...")`: `lo = LoadOptions(); lo.password = "..."; Metadata(path, lo)`.
 
-**`System.Drawing.Common is not supported`** -- install libgdiplus: `sudo apt install libgdiplus` (Linux) / `brew install mono-libgdiplus` (macOS)
+**`DllNotFoundException` for `libSkiaSharp` or `libaspose.slides.drawing.capi…`, or `libfontconfig.so.1: cannot open shared object file`** -- Linux is missing fontconfig: `sudo apt install libfontconfig1`. Without it, opening presentations and exporting to XLSX fail.
 
-**`Gdip` type initializer exception** -- outdated libgdiplus: `brew reinstall mono-libgdiplus` (macOS)
+**`DllNotFoundException: libgdiplus` / `Gdip` type initializer exception** -- not expected: since 26.9 no libgdiplus is needed on Linux or macOS. If it appears, install it (`sudo apt install libgdiplus` / `brew install mono-libgdiplus`) and report the document to support.
 
-**Errors processing images that need fonts** -- install fonts: `sudo apt install ttf-mscorefonts-installer fontconfig && sudo fc-cache -f`
+**`DOTNET_SYSTEM_GLOBALIZATION_INVARIANT` errors, or the process aborts with `Couldn't find a valid ICU package`** -- do NOT set this variable. Install ICU: `sudo apt install libicu-dev`
 
-**`DOTNET_SYSTEM_GLOBALIZATION_INVARIANT` errors** -- do NOT set this. Install ICU: `sudo apt install libicu-dev`
+**`is not a supported wheel on this platform` / `No matching distribution found for groupdocs-metadata-net` / pip installs a version older than 26.9** -- the OS is older than glibc 2.27 / macOS 12, or pip is older than 20.3 (`python -m pip install --upgrade pip`). Versions up to 26.7 were tagged for older systems, so an unpinned install falls back to them, and they fail at first use there. On an Intel Mac, a Python built against an old SDK reports macOS 10.16: use pip 24.1+ or `SYSTEM_VERSION_COMPAT=0 pip install groupdocs-metadata-net`.
+
+**`TypeError: ... cannot wrap function as GroupDocs.Metadata.Options.CreatePageStream`** -- page previews (`generate_preview` / `PreviewOptions`) are not available from Python yet.
+
+**`DllNotFoundException: ... aspose.slides.drawing.capi_vc14x64 ...: The filename or extension is too long` when opening a presentation (Windows)** -- the package is installed so deep that its native library's path exceeds 260 characters (roughly: a virtual environment path longer than ~170). Install it closer to the drive root.
+
+**`PermissionRuntimeError: Access to the path ... is denied` / `Read-only file system` when opening a file** -- `Metadata(path)` opens the file for writing, so a read-only file fails. Open it as a stream instead: `with open(path, "rb") as f: Metadata(f)`.
 
 **`TypeLoadException`** -- reinstall: `pip install --force-reinstall groupdocs-metadata-net`
 

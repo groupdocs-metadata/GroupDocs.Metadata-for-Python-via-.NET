@@ -42,18 +42,15 @@ GroupDocs.Metadata for Python via .NET supports a wide range of file formats, in
    pip install -r requirements.txt
    ```
 
-   Alternatively, download the platform-specific `.whl` file from the [GroupDocs Releases](https://releases.groupdocs.com/metadata/python-net/) website and install it directly (adjust the filename to your platform — `win_amd64`, `manylinux*_x86_64`, `macosx_*_arm64`, `macosx_*_x86_64`):
+   Alternatively, download the platform-specific `.whl` file from the [GroupDocs Releases](https://releases.groupdocs.com/metadata/python-net/) website and install it directly (adjust the filename to your platform — `win_amd64`, `manylinux_2_27_x86_64`, `macosx_12_0_arm64`, `macosx_12_0_x86_64`; pip 20.3 or newer):
 
    ```bash
-   pip install ./groupdocs_metadata_net-26.5-py3-none-win_amd64.whl
+   pip install ./groupdocs_metadata_net-26.9.0-py3-none-win_amd64.whl
    ```
 
-5. **Configure License (Optional)**: `run_all_examples.py` automatically applies a license when one is available, looking in two places:
+5. **Configure License (Optional)**: `run_all_examples.py` applies the license named by the `GROUPDOCS_LIC_PATH` environment variable — set it to the absolute path of your `.lic` file.
 
-   - The `GROUPDOCS_LIC_PATH` environment variable — set it to the absolute path of your `.lic` file (recommended).
-   - Any `*.lic` file in the repository root.
-
-   With a license applied, examples run with the full feature set; without one, output documents carry an evaluation watermark and are capped at the first two pages. Get a free 30-day [temporary license](https://purchase.groupdocs.com/temporary-license) for evaluation.
+   With a license applied, examples run with the full feature set. Without one, the API reads only the first 5 properties of each metadata package, opens at most 15 files, and `save()` is disabled — see [Evaluation Limitations](https://docs.groupdocs.com/metadata/python-net/evaluation-limitations-and-licensing/). Get a free 30-day [temporary license](https://purchase.groupdocs.com/temporary-license) for evaluation.
 
 6. **Run the Examples**: To run all the examples, execute the following command:
 
@@ -65,7 +62,7 @@ GroupDocs.Metadata for Python via .NET supports a wide range of file formats, in
 
 ## Run with Docker
 
-The repository ships a `Dockerfile` that builds a Linux image with Python 3.13, the .NET runtime dependencies (`libicu-dev`), and the `groupdocs-metadata-net` package preinstalled.
+The repository ships a `Dockerfile` that builds a Linux image with Python 3.13, the two system packages the library needs on Linux (ICU and fontconfig), and the `groupdocs-metadata-net` package preinstalled.
 
 ```bash
 # Build the image
@@ -91,7 +88,7 @@ For on-demand documentation lookups, combine the bundled `AGENTS.md` with the Gr
 
 ## Continuous integration
 
-The `.github/workflows/` directory contains the CI matrix that runs the full example suite on every push. The matrix is reproducible locally via the `Dockerfile` above.
+The `.github/workflows/` directory contains the CI workflow that runs the full example suite on Linux on every push. It is reproducible locally via the `Dockerfile` above.
 
 ## More Resources
 
